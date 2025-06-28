@@ -14,10 +14,7 @@
                 </tr>`
     }
 }
-function create() {
-    const form = document.getElementById("product-form")
-    form.classList.remove("d-none")
-}
+
 
 const rows = document.querySelectorAll(".productRow")
 
@@ -54,12 +51,6 @@ function add() {
     console.log(products2)
     }
 
-}
-function create2(button) {
-    const row = button.closest("tr");
-    id = row.querySelector("td").innerText.trim()
-    const form = document.getElementById("product-form2")
-    form.classList.remove("d-none")
 }
 function update() {
   const productName2 = document.getElementById("productName2");
