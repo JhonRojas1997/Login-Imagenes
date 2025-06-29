@@ -67,6 +67,5 @@ function register(){
     document.getElementById("telefono").value = "";
     document.getElementById("direccion").value = "";
     document.getElementById("postal").value = "";
-    
 }
 
