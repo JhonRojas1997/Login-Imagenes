@@ -2,16 +2,25 @@ let id = null;
 window.onload = function () {
   let inventario = JSON.parse(localStorage.getItem("inventario")) || {};
   let corr = sessionStorage.getItem("correo");
-  const productTable = document.getElementById("products");
+  const intcartas = document.getElementById("cartas");
   for (i in inventario[corr]) {
-    productTable.innerHTML += `<tr class="productRow">
-                    <td scope="row"><strong>${i}</strong></td>
-                    <td>${inventario[corr][i].name}</td>
-                    <td>${inventario[corr][i].price}</td>
-                    <td>${inventario[corr][i].description}</td>
-                    <td><button onclick="deleteProduct(this)" class="btn btn-danger">Eliminar</button></td>
-                    <td><button onclick="create2(this)" class="btn btn-warning">Actualizar</button></td>
-                </tr>`;
+    intcartas.innerHTML += `
+ <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            <h5 class="card-title p-3">${inventario[corr][i].name}</h5>
+            <img
+              src="${inventario[corr][i].price}"
+              class="card-img-top"
+              alt="..."
+            />
+            <div class="card-body">
+              <p class="card-text">${inventario[corr][i].description}</p>
+
+              <div class="btn btn-primary">Eliminar</div>
+              <div class="btn btn-primary">actualizar</div>
+            </div>
+          </div>
+        </div>`;
   }
 };
 
@@ -25,7 +34,7 @@ function add() {
   const productName = document.getElementById("productName");
   const productPrice = document.getElementById("productPrice");
   const productDescription = document.getElementById("productDescription");
-  const productTable = document.getElementById("products");
+  const intcartas = document.getElementById("cartas");
   if (!productName.value || !productDescription.value || !productPrice.value) {
     alert("Campos vacios. Llene todos los campos");
   } else {
@@ -40,14 +49,6 @@ function add() {
     };
     localStorage.setItem("inventario", JSON.stringify(inventario));
     localStorage.setItem("counter", counter);
-    productTable.innerHTML += `<tr class="productRow">
-                    <td scope="row"><strong>${counter}</strong></td>
-                    <td>${inventario[corr][counter].name}</td>
-                    <td>${inventario[corr][counter].price}</td>
-                    <td>${inventario[corr][counter].description}</td>
-                    <td><button onclick="deleteProduct(this)" class="btn btn-danger">Eliminar</button></td>
-                    <td><button onclick="create2(this)" class="btn btn-warning">Actualizar</button></td>
-                    </tr>`;
     document.getElementById("newProductForm").reset();
     location.reload();
     console.log(products2);
