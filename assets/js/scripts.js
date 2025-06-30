@@ -12,7 +12,7 @@ function auth() {
       alert("Bienvenido a inventario");
       sessionStorage.setItem("auth", true);
       sessionStorage.setItem("correo", email);
-      window.location = "../other/home.html";
+      window.location = "../../other/riwired.html";
     } else {
       alert("Datos incorrectos");
     }
