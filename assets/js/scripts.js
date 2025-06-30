@@ -64,6 +64,7 @@ function register() {
       telefono: telefono,
       direccion: direccion,
       postal: postal,
+      perfil: "https://cdn-icons-png.flaticon.com/512/12225/12225881.png",
     };
     localStorage.setItem("users", JSON.stringify(users));
     alert("Usuario creado satisfactoriamente");
@@ -80,5 +81,3 @@ function register() {
   document.getElementById("direccion").value = "";
   document.getElementById("postal").value = "";
 }
-document.getElementById("btnReg");
-btnReg.addEventListener("click", register);

@@ -57,13 +57,32 @@ body {
 }
 .columna-izquierda {
   display: flex;
+  flex-direction: column;
+  height: 100vh;
   background-color: var(--color-fondo-principal);
+}
+.columna-izquierda h2 {
+  text-align: center;
+  color: var(--color-destacado-creativo);
+}
+.columna-izquierda h3 {
+  font-size: 20px;
+  padding-left: 15px;
+  color: var(--color-texto-principal);
+}
+.email {
+  text-align: center;
+  font-size: 23px;
+  color: var(--color-texto-principal);
+  padding-bottom: 10px;
 }
 .perfil-img {
   margin-top: 80px;
+  margin-bottom: 20px;
   width: 200px;
   height: 200px;
   margin-inline: auto;
+  border-radius: 50%;
 }
 .columna-derecha {
   margin-top: 63px;
@@ -108,4 +127,19 @@ body {
   margin-top: 15px;
   width: 40px;
   height: 40px;
+  border-radius: 50%;
+}
+.bajar {
+  margin-top: auto;
+}
+.titulo-card {
+  padding-left: 10px;
+}
+.titulo-card img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+footer {
+  padding-left: 10px;
 }
