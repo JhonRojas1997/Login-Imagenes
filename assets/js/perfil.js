@@ -164,3 +164,48 @@ function guardarCambios() {
   localStorage.setItem("inventario", JSON.stringify(inventario));
   location.reload();
 }
+function updatePerfil() {
+  const corr = sessionStorage.getItem("correo");
+
+  alert(corr);
+
+  let email = document.getElementById("email").value.toLowerCase();
+  let password = document.getElementById("password").value;
+  let name = document.getElementById("name").value;
+  let lastname = document.getElementById("lastname").value;
+  let pais = document.getElementById("pais").value;
+  let ciudad = document.getElementById("ciudad").value;
+  let telefono = document.getElementById("telefono").value;
+  let direccion = document.getElementById("direccion").value;
+  let fPerfil = document.getElementById("fPerfil").value;
+  let postal = document.getElementById("postal").value;
+  let inventario = JSON.parse(localStorage.getItem("inventario")) || {};
+  email.innerHTML = "";
+  let users = JSON.parse(localStorage.getItem("users")) || {};
+
+  alert("Este Correo ya se encuentra registrado");
+  users[corr] = {
+    name: name,
+    lastname: lastname,
+    password: password,
+    pais: pais,
+    ciudad: ciudad,
+    telefono: telefono,
+    direccion: direccion,
+    postal: postal,
+    perfil: fPerfil,
+  };
+  localStorage.setItem("users", JSON.stringify(users));
+  alert("Datos actualizados");
+
+  console.log(users);
+
+  document.getElementById("name").value = "";
+  document.getElementById("lastname").value = "";
+  document.getElementById("email").value = "";
+  document.getElementById("pais").value = "";
+  document.getElementById("ciudad").value = "";
+  document.getElementById("telefono").value = "";
+  document.getElementById("direccion").value = "";
+  document.getElementById("postal").value = "";
+}
