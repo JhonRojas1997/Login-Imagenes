@@ -1,0 +1,172 @@
+:root {
+  --color-fondo-principal: #ffffff;
+  --color-texto-principal: #212121;
+  --color-boton-acento: #ff6d00;
+  --color-boton-acento-hover: #ff8c42;
+  --color-enlace-activo: #00b0ff;
+  --color-destacado-creativo: #6a1b9a;
+  --color-icono-notificacion: #ffd600;
+  --color-fondo-texto: #c4c4c4;
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: var(--color-fondo-texto);
+}
+.inicio {
+  display: flex;
+  position: fixed;
+  width: 100%;
+  height: 60px;
+  background: var(--color-destacado-creativo);
+  box-shadow: 2px 2px 10px var(--color-enlace-activo);
+  justify-content: space-between;
+  align-items: center;
+}
+.inicio img {
+  height: 50px;
+}
+.barra {
+  padding-right: 20px;
+}
+.inicio input {
+  border-radius: 20px;
+  height: 50%;
+  width: 20%;
+}
+.logo-input {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.logo-input input {
+  height: 30px;
+  width: 20em;
+  background-color: var(--color-fondo-texto);
+  padding-inline: 20px;
+}
+.layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  height: 100vh;
+  padding-inline: 50px;
+  gap: 10px;
+  overflow: hidden;
+}
+.columna-izquierda {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--color-fondo-principal);
+}
+.columna-izquierda h2 {
+  text-align: center;
+  color: var(--color-destacado-creativo);
+}
+.columna-izquierda h3 {
+  font-size: 20px;
+  margin: 10px auto 0 auto;
+  color: var(--color-texto-principal);
+}
+.email {
+  text-align: center;
+  font-size: 23px;
+  color: var(--color-texto-principal);
+  padding-bottom: 8px;
+}
+.perfil-img {
+  margin-top: 80px;
+  margin-bottom: 10px;
+  width: 200px;
+  height: 200px;
+  margin-inline: auto;
+  border-radius: 50%;
+  display: block;
+  object-fit: cover;
+}
+.columna-derecha {
+  margin-top: 63px;
+  display: flex;
+  background-color: var(--color-fondo-texto);
+  flex-direction: column;
+  overflow-y: scroll;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.columna-derecha::-webkit-scrollbar {
+  display: none;
+}
+.publicar {
+  display: flex;
+  gap: 10px;
+  margin: auto;
+  height: 100px;
+  width: 100%;
+  background: var(--color-fondo-principal);
+  border-radius: 15px;
+  margin-bottom: 20px;
+  margin-top: 15px;
+  padding-inline: 20px;
+}
+.publicar input {
+  margin-top: 15px;
+  width: 90%;
+  height: 40px;
+  border-radius: 25px;
+  padding-left: 10px;
+  cursor: pointer;
+}
+.publicar input:hover {
+  background: rgba(211, 211, 211, 0.301);
+}
+.rounded-15 {
+  border-radius: 15px;
+}
+.input-img {
+  margin-top: 15px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: block;
+  object-fit: cover;
+}
+.bajar {
+  margin-top: auto;
+}
+footer {
+  padding-left: 10px;
+}
+.textosp {
+  padding-left: 15px;
+}
+.textosm {
+  margin-top: 11px;
+}
+.textof {
+  margin-left: auto;
+  padding-right: 15px;
+}
+.port {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  text-align: center;
+  align-items: center;
+  padding: 10px 0 0 15px;
+}
+.port img {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: block;
+  object-fit: cover;
+}
+.nombrepub {
+  padding-top: 5px;
+}
+.actboton {
+  margin: auto;
+}
