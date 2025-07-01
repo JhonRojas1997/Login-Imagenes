@@ -1,33 +1,4 @@
 let id = null;
-// window.onload = function () {
-//   let inventario = JSON.parse(localStorage.getItem("inventario")) || {};
-//   let corr = sessionStorage.getItem("correo");
-//   const intcartas = document.getElementById("cartas");
-
-//   const keys = Object.keys(inventario[corr] || {}).reverse();
-
-//   keys.forEach((i) => {
-//     intcartas.innerHTML += `
-//       <div class="col-12 mb-4">
-//         <div class="card h-100 rounded-15">
-//           <h5 class="card-title p-3">${inventario[corr][i].name}</h5>
-//           <img src="${inventario[corr][i].price}" class="card-img-top" alt="..." />
-//           <div class="card-body">
-//             <p class="card-text">${inventario[corr][i].description}</p>
-//             <button class="btn btn-danger mt-2" onclick="deleteProduct('${i}')">Eliminar</button>
-//             <button type="button" class="btn btn-primary mt-2"
-//               data-bs-toggle="modal"
-//               data-bs-target="#miModal2"
-//               data-id="${i}"
-//               data-correo="${corr}"
-//               onclick="cargarProducto(this)">
-//               Actualizar
-//             </button>
-//           </div>
-//         </div>
-//       </div>`;
-//   });
-// };
 window.onload = function () {
   const inventario = JSON.parse(localStorage.getItem("inventario")) || {};
   const users = JSON.parse(localStorage.getItem("users")) || {};
@@ -35,18 +6,23 @@ window.onload = function () {
   const corr = sessionStorage.getItem("correo");
   const columna = document.getElementById("columnaIzquierda");
   const columnaD = document.getElementById("publicarImg");
-  foto = users[corr].perfil;
+
+  foto = users[corr].fPerfil;
   nombre = users[corr].name;
   apellido = users[corr].lastname;
   pais = users[corr].pais;
   ciudad = users[corr].ciudad;
   telefono = users[corr].telefono;
+  direccion = users[corr].direccion;
+  postal = users[corr].postal;
+
   // alert(nombre);
   // alert(apellido);
   // alert(corr);
   // alert(pais);
   // alert(ciudad);
   // alert(telefono);
+
   if (columna) {
     columna.innerHTML =
       `<img
@@ -59,6 +35,8 @@ window.onload = function () {
         <h3>Pais: ${pais}</h3>
         <h3>Ciudad: ${ciudad}</h3>
         <h3>Telefono: ${telefono}</h3>
+        <h3>Direccion: ${direccion}</h3>
+        <h3>Codigo postal: ${postal}</h3>
         ` + columna.innerHTML;
   }
 
@@ -71,39 +49,68 @@ window.onload = function () {
             /> 
   ` + columnaD.innerHTML;
   }
+
   Object.keys(inventario).forEach((correo) => {
-    const productos = inventario[correo];
+    const productos = Object.values(inventario[correo]);
 
-    Object.keys(productos)
-      .reverse()
-      .forEach((i) => {
-        const item = productos[i];
-
-        intcartas.innerHTML =
-          `
-          <div class="col-12 mb-4">
-            <div class="card h-100 rounded-15">
-            <h2 class="titulo-card">
-              <img
-                src="${item.img}"
-                alt=""
-              />
-              ${item.autor}
-            </h2>
-              <h5 class="card-title p-3">
-                ${item.name}
-              </h5>
-              <img src="${item.price}" class="card-img-top" alt="..." />
-              <div class="card-body">
-                <p class="card-text">${item.description}</p>
+    productos
+      .sort((a, b) => new Date(b.fecha) - new Date(a.fecha)) // Orden por fecha descendente
+      .forEach((item) => {
+        let sfpubli = item.price;
+        if (sfpubli === "") {
+          intcartas.innerHTML =
+            `
+         <div class="col-12 mb-4">
+              <div class="card h-100 rounded-15">
+                <div class="port">
+                  <img
+                    src="${item.img}"
+                    alt=""
+                  />
+                  <h2 class="titulo-card nombrepub">${item.autor}</h2>
+                </div>
+                <h5 class="card-title textosp">${item.name}</h5>
+                <div class="textosp">
+                  <p class="card-text">
+                    ${item.description}
+                  </p>
+                </div>
+                <footer class="textof">
+                  <h6>fecha de publicacion: ${item.fecha}</h6>
+                </footer>
               </div>
-              <footer>
-                <h6>fecha de publicacion: ${item.fecha}</h6>
-              </footer> 
             </div>
-          </div>
         ` + intcartas.innerHTML;
-        // 👆 Esto es la clave: insertamos al principio
+        } else {
+          intcartas.innerHTML =
+            `
+         <div class="col-12 mb-4">
+              <div class="card h-100 rounded-15">
+                <div class="port">
+                  <img
+                    src="${item.img}"
+                    alt=""
+                  />
+                  <h2 class="titulo-card nombrepub">${item.autor}</h2>
+                </div>
+                <h5 class="card-title textosp">${item.name}</h5>
+                <img
+                  src="${item.price}"
+                  class="card-img-top"
+                  alt="..."
+                />
+                <div class="textosp">
+                  <p class="card-text">
+                    ${item.description}
+                  </p>
+                </div>
+                <footer class="textof">
+                  <h6>fecha de publicacion: ${item.fecha}</h6>
+                </footer>
+              </div>
+            </div>
+        ` + intcartas.innerHTML;
+        }
       });
   });
 };
@@ -119,8 +126,8 @@ function add() {
   const productDescription = document.getElementById("productDescription");
   const intcartas = document.getElementById("cartas");
 
-  if (!productName.value || !productDescription.value || !productPrice.value) {
-    alert("Campos vacios. Llene todos los campos");
+  if (!productName.value || !productDescription.value) {
+    alert("Campos vacios. Nombre y Descripcion son obligatorios");
   } else {
     let counter = Number(localStorage.getItem("counter")) || 0;
     let corr = sessionStorage.getItem("correo");
@@ -129,10 +136,10 @@ function add() {
     let users = JSON.parse(localStorage.getItem("users")) || {};
     let hora = new Date().toLocaleString("es-CO");
     let autor2 = users[corr].name + " " + users[corr].lastname;
-    let imagen = users[corr].perfil;
+    let imagen = users[corr].fPerfil;
     inventario[corr][counter] = {
       name: productName.value.toLowerCase(),
-      price: productPrice.value.toLowerCase(),
+      price: productPrice.value.toLowerCase().trim(""),
       description: productDescription.value.toLowerCase(),
       autor: autor2,
       fecha: hora,
@@ -141,24 +148,8 @@ function add() {
     localStorage.setItem("inventario", JSON.stringify(inventario));
     localStorage.setItem("counter", counter);
     document.getElementById("newProductForm").reset();
+
     location.reload();
     console.log(products2);
   }
 }
-
-function guardarCambios() {
-  const id = document.getElementById("producto-id").value;
-  const correo = document.getElementById("correo-id").value;
-  const nuevoNombre = document.getElementById("productName2").value;
-  const nuevaDescripcion = document.getElementById("productDescription2").value;
-
-  const inventario = JSON.parse(localStorage.getItem("inventario")) || {};
-
-  inventario[correo][id].name = nuevoNombre;
-  inventario[correo][id].description = nuevaDescripcion;
-
-  localStorage.setItem("inventario", JSON.stringify(inventario));
-  location.reload();
-}
-
-function like() {}

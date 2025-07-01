@@ -6,12 +6,14 @@ window.onload = function () {
   const intcartas = document.getElementById("cartas");
   const columna = document.getElementById("columnaIzquierda");
   const columnaD = document.getElementById("publicarImg");
-  foto = users[corr].perfil;
+  foto = users[corr].fPerfil;
   nombre = users[corr].name;
   apellido = users[corr].lastname;
   pais = users[corr].pais;
   ciudad = users[corr].ciudad;
   telefono = users[corr].telefono;
+  direccion = users[corr].direccion;
+  postal = users[corr].postal;
   const keys = Object.keys(inventario[corr] || {}).reverse();
   if (columna) {
     columna.innerHTML =
@@ -25,6 +27,8 @@ window.onload = function () {
         <h3>Pais: ${pais}</h3>
         <h3>Ciudad: ${ciudad}</h3>
         <h3>Telefono: ${telefono}</h3>
+        <h3>Direccion: ${direccion}</h3>
+        <h3>Codigo postal: ${postal}</h3>
         ` + columna.innerHTML;
   }
   if (columnaD) {
@@ -37,14 +41,24 @@ window.onload = function () {
   ` + columnaD.innerHTML;
   }
   keys.forEach((i) => {
-    intcartas.innerHTML += `
+    let sfpubli = inventario[corr][i].price;
+    if (sfpubli === "") {
+      intcartas.innerHTML += `
       <div class="col-12 mb-4">
-        <div class="card h-100 rounded-15">
-          <h5 class="card-title p-3">${inventario[corr][i].name}</h5>
-          <img src="${inventario[corr][i].price}" class="card-img-top" alt="..." />
-          <div class="card-body">
-            <p class="card-text">${inventario[corr][i].description}</p>
-            <button class="btn btn-danger mt-2" onclick="deleteProduct('${i}')">Eliminar</button>
+              <div class="card h-100 rounded-15">
+                <div class="port">
+                  <img
+                    src="${inventario[corr][i].img}"
+                    alt=""
+                  />
+                  <h2 class="titulo-card nombrepub">${inventario[corr][i].autor}</h2>
+                </div>
+                <h5 class="card-title textosp">${inventario[corr][i].name}</h5>
+                <div class="textosp">
+                  <p class="card-text">
+                    ${inventario[corr][i].description}
+                  </p>
+                   <button class="btn btn-danger mt-2" onclick="deleteProduct('${i}')">Eliminar</button>
             <button type="button" class="btn btn-primary mt-2"
               data-bs-toggle="modal"
               data-bs-target="#miModal2"
@@ -53,9 +67,49 @@ window.onload = function () {
               onclick="cargarProducto(this)">
               Actualizar
             </button>
-          </div>
-        </div>
-      </div>`;
+                </div>
+               
+                <footer class="textof">
+                  <h6>fecha de publicacion: ${inventario[corr][i].fecha}</h6>
+                </footer>
+              </div>`;
+    } else {
+      intcartas.innerHTML += `
+      <div class="col-12 mb-4">
+              <div class="card h-100 rounded-15">
+                <div class="port">
+                  <img
+                    src="${inventario[corr][i].img}"
+                    alt=""
+                  />
+                  <h2 class="titulo-card nombrepub">${inventario[corr][i].autor}</h2>
+                </div>
+                <h5 class="card-title textosp">${inventario[corr][i].name}</h5>
+                <img
+                  src="${inventario[corr][i].price}"
+                  class="card-img-top"
+                  alt="..."
+                />
+                <div class="textosp">
+                  <p class="card-text">
+                    ${inventario[corr][i].description}
+                  </p>
+                   <button class="btn btn-danger mt-2" onclick="deleteProduct('${i}')">Eliminar</button>
+            <button type="button" class="btn btn-primary mt-2"
+              data-bs-toggle="modal"
+              data-bs-target="#miModal2"
+              data-id="${i}"
+              data-correo="${corr}"
+              onclick="cargarProducto(this)">
+              Actualizar
+            </button>
+                </div>
+               
+                <footer class="textof">
+                  <h6>fecha de publicacion: ${inventario[corr][i].fecha}</h6>
+                </footer>
+              </div>`;
+    }
   });
 };
 
@@ -71,8 +125,8 @@ function add() {
   const productDescription = document.getElementById("productDescription");
   const intcartas = document.getElementById("cartas");
 
-  if (!productName.value || !productDescription.value || !productPrice.value) {
-    alert("Campos vacios. Llene todos los campos");
+  if (!productName.value || !productDescription.value) {
+    alert("Campos vacios. Nombre y Descripcion obligatorios");
   } else {
     let counter = Number(localStorage.getItem("counter")) || 0;
     let corr = sessionStorage.getItem("correo");
@@ -81,10 +135,10 @@ function add() {
     let users = JSON.parse(localStorage.getItem("users")) || {};
     let hora = new Date().toLocaleString("es-CO");
     let autor2 = users[corr].name + " " + users[corr].lastname;
-    let imagen = users[corr].perfil;
+    let imagen = users[corr].fPerfil;
     inventario[corr][counter] = {
       name: productName.value.toLowerCase(),
-      price: productPrice.value.toLowerCase(),
+      price: productPrice.value.toLowerCase().trim(""),
       description: productDescription.value.toLowerCase(),
       autor: autor2,
       fecha: hora,
@@ -93,6 +147,7 @@ function add() {
     localStorage.setItem("inventario", JSON.stringify(inventario));
     localStorage.setItem("counter", counter);
     document.getElementById("newProductForm").reset();
+    document.getElementById("newProductForm2").reset();
     location.reload();
     console.log(products2);
   }
@@ -155,20 +210,25 @@ function guardarCambios() {
   const correo = document.getElementById("correo-id").value;
   const nuevoNombre = document.getElementById("productName2").value;
   const nuevaDescripcion = document.getElementById("productDescription2").value;
-
   const inventario = JSON.parse(localStorage.getItem("inventario")) || {};
+  if (!nuevaDescripcion && !nuevoNombre) {
+    alert("Campos vacios");
+  } else {
+    if (nuevoNombre) {
+      inventario[correo][id].name = nuevoNombre;
+      inventario[correo][id].description = inventario[correo][id].description;
+    }
+    if (nuevaDescripcion) {
+      inventario[correo][id].description = nuevaDescripcion;
+      inventario[correo][id].name = inventario[correo][id].name;
+    }
 
-  inventario[correo][id].name = nuevoNombre;
-  inventario[correo][id].description = nuevaDescripcion;
-
-  localStorage.setItem("inventario", JSON.stringify(inventario));
-  location.reload();
+    localStorage.setItem("inventario", JSON.stringify(inventario));
+    location.reload();
+  }
 }
 function updatePerfil() {
   const corr = sessionStorage.getItem("correo");
-
-  alert(corr);
-
   let email = document.getElementById("email").value.toLowerCase();
   let password = document.getElementById("password").value;
   let name = document.getElementById("name").value;
@@ -179,33 +239,167 @@ function updatePerfil() {
   let direccion = document.getElementById("direccion").value;
   let fPerfil = document.getElementById("fPerfil").value;
   let postal = document.getElementById("postal").value;
-  let inventario = JSON.parse(localStorage.getItem("inventario")) || {};
   email.innerHTML = "";
   let users = JSON.parse(localStorage.getItem("users")) || {};
+  let inventario = JSON.parse(localStorage.getItem("inventario")) || {};
+  if (
+    !email &&
+    !password &&
+    !name &&
+    !lastname &&
+    !pais &&
+    !ciudad &&
+    !telefono &&
+    !direccion &&
+    !fPerfil &&
+    !postal
+  ) {
+    alert("Todos los campos vacios");
+  } else {
+    if (users[email]) {
+      alert("Este Correo ya se encuentra registrado");
+    } else {
+      if (name) {
+        users[corr] = {
+          name: name,
+          lastname: users[corr].lastname,
+          password: users[corr].password,
+          pais: users[corr].pais,
+          ciudad: users[corr].ciudad,
+          telefono: users[corr].telefono,
+          direccion: users[corr].direccion,
+          postal: users[corr].postal,
+          fPerfil: users[corr].fPerfil,
+        };
+      }
+      if (lastname) {
+        users[corr] = {
+          name: users[corr].name,
+          lastname: lastname,
+          password: users[corr].password,
+          pais: users[corr].pais,
+          ciudad: users[corr].ciudad,
+          telefono: users[corr].telefono,
+          direccion: users[corr].direccion,
+          postal: users[corr].postal,
+          fPerfil: users[corr].fPerfil,
+        };
+      }
+      if (password) {
+        users[corr] = {
+          name: users[corr].name,
+          lastname: users[corr].lastname,
+          password: password,
+          pais: users[corr].pais,
+          ciudad: users[corr].ciudad,
+          telefono: users[corr].telefono,
+          direccion: users[corr].direccion,
+          postal: users[corr].postal,
+          fPerfil: users[corr].fPerfil,
+        };
+      }
+      if (pais) {
+        users[corr] = {
+          name: users[corr].name,
+          lastname: users[corr].lastname,
+          password: users[corr].password,
+          pais: pais,
+          ciudad: users[corr].ciudad,
+          telefono: users[corr].telefono,
+          direccion: users[corr].direccion,
+          postal: users[corr].postal,
+          fPerfil: users[corr].fPerfil,
+        };
+      }
+      if (ciudad) {
+        users[corr] = {
+          name: users[corr].name,
+          lastname: users[corr].lastname,
+          password: users[corr].password,
+          pais: users[corr].pais,
+          ciudad: ciudad,
+          telefono: users[corr].telefono,
+          direccion: users[corr].direccion,
+          postal: users[corr].postal,
+          fPerfil: users[corr].fPerfil,
+        };
+      }
+      if (telefono) {
+        users[corr] = {
+          name: users[corr].name,
+          lastname: users[corr].lastname,
+          password: users[corr].password,
+          pais: users[corr].pais,
+          ciudad: users[corr].ciudad,
+          telefono: telefono,
+          direccion: users[corr].direccion,
+          postal: users[corr].postal,
+          fPerfil: users[corr].fPerfil,
+        };
+      }
+      if (direccion) {
+        users[corr] = {
+          name: users[corr].name,
+          lastname: users[corr].lastname,
+          password: users[corr].password,
+          pais: users[corr].pais,
+          ciudad: users[corr].ciudad,
+          telefono: users[corr].telefono,
+          direccion: direccion,
+          postal: users[corr].postal,
+          fPerfil: users[corr].fPerfil,
+        };
+      }
+      if (postal) {
+        users[corr] = {
+          name: users[corr].name,
+          lastname: users[corr].lastname,
+          password: users[corr].password,
+          pais: users[corr].pais,
+          ciudad: users[corr].ciudad,
+          telefono: users[corr].telefono,
+          direccion: users[corr].direccion,
+          postal: postal,
+          fPerfil: users[corr].fPerfil,
+        };
+      }
+      if (fPerfil) {
+        users[corr] = {
+          name: users[corr].name,
+          lastname: users[corr].lastname,
+          password: users[corr].password,
+          pais: users[corr].pais,
+          ciudad: users[corr].ciudad,
+          telefono: users[corr].telefono,
+          direccion: users[corr].direccion,
+          postal: users[corr].postal,
+          fPerfil: fPerfil,
+        };
+      }
+      if (email) {
+        users[email] = users[corr];
+        inventario[email] = inventario[corr];
+        delete users[corr];
+        delete inventario[corr];
+        sessionStorage.setItem("correo", email);
+      }
+      localStorage.setItem("users", JSON.stringify(users));
+      localStorage.setItem("inventario", JSON.stringify(inventario));
+      alert("Datos actualizados");
 
-  alert("Este Correo ya se encuentra registrado");
-  users[corr] = {
-    name: name,
-    lastname: lastname,
-    password: password,
-    pais: pais,
-    ciudad: ciudad,
-    telefono: telefono,
-    direccion: direccion,
-    postal: postal,
-    perfil: fPerfil,
-  };
-  localStorage.setItem("users", JSON.stringify(users));
-  alert("Datos actualizados");
+      console.log(users);
 
-  console.log(users);
-
-  document.getElementById("name").value = "";
-  document.getElementById("lastname").value = "";
-  document.getElementById("email").value = "";
-  document.getElementById("pais").value = "";
-  document.getElementById("ciudad").value = "";
-  document.getElementById("telefono").value = "";
-  document.getElementById("direccion").value = "";
-  document.getElementById("postal").value = "";
+      document.getElementById("name").value = "";
+      document.getElementById("lastname").value = "";
+      document.getElementById("email").value = "";
+      document.getElementById("pais").value = "";
+      document.getElementById("ciudad").value = "";
+      document.getElementById("telefono").value = "";
+      document.getElementById("direccion").value = "";
+      document.getElementById("postal").value = "";
+      document.getElementById("postal").value = "";
+      document.getElementById("fPerfil").value = "";
+      location.reload();
+    }
+  }
 }

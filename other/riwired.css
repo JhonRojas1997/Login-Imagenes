@@ -67,22 +67,24 @@ body {
 }
 .columna-izquierda h3 {
   font-size: 20px;
-  padding-left: 15px;
+  margin: 10px auto 0 auto;
   color: var(--color-texto-principal);
 }
 .email {
   text-align: center;
   font-size: 23px;
   color: var(--color-texto-principal);
-  padding-bottom: 10px;
+  padding-bottom: 8px;
 }
 .perfil-img {
   margin-top: 80px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   width: 200px;
   height: 200px;
   margin-inline: auto;
   border-radius: 50%;
+  display: block;
+  object-fit: cover;
 }
 .columna-derecha {
   margin-top: 63px;
@@ -128,18 +130,43 @@ body {
   width: 40px;
   height: 40px;
   border-radius: 50%;
+  display: block;
+  object-fit: cover;
 }
 .bajar {
   margin-top: auto;
 }
-.titulo-card {
+footer {
   padding-left: 10px;
 }
-.titulo-card img {
+.textosp {
+  padding-left: 15px;
+}
+.textosm {
+  margin-top: 11px;
+}
+.textof {
+  margin-left: auto;
+  padding-right: 15px;
+}
+.port {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  text-align: center;
+  align-items: center;
+  padding: 10px 0 0 15px;
+}
+.port img {
   width: 35px;
   height: 35px;
   border-radius: 50%;
+  display: block;
+  object-fit: cover;
 }
-footer {
-  padding-left: 10px;
+.nombrepub {
+  padding-top: 5px;
+}
+.actboton {
+  margin: auto;
 }

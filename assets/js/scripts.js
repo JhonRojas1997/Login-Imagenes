@@ -64,7 +64,7 @@ function register() {
       telefono: telefono,
       direccion: direccion,
       postal: postal,
-      perfil: "https://cdn-icons-png.flaticon.com/512/12225/12225881.png",
+      fPerfil: "https://cdn-icons-png.flaticon.com/512/12225/12225881.png",
     };
     localStorage.setItem("users", JSON.stringify(users));
     alert("Usuario creado satisfactoriamente");
