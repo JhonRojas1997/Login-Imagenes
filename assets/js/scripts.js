@@ -1,7 +1,9 @@
 window.onload = function () {
   let users = JSON.parse(localStorage.getItem("users")) || {};
 };
-function auth() {
+
+const logButton = document.querySelector("#logButton");
+logButton.addEventListener("click", function auth() {
   let email = document.getElementById("email").value.toLowerCase();
   let password = document.getElementById("password");
   let users = JSON.parse(localStorage.getItem("users")) || {};
@@ -22,9 +24,10 @@ function auth() {
   document.getElementById("email").value = "";
   document.getElementById("password").value = "";
   console.log(users);
-}
+});
 
-function register() {
+const registerButton = document.querySelector("#registerButton");
+registerButton.addEventListener("click", function register() {
   let email = document.getElementById("email").value.toLowerCase();
   let password = document.getElementById("password").value;
   let name = document.getElementById("name").value;
@@ -80,4 +83,4 @@ function register() {
   document.getElementById("telefono").value = "";
   document.getElementById("direccion").value = "";
   document.getElementById("postal").value = "";
-}
+});
