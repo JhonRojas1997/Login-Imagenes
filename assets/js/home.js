@@ -116,11 +116,15 @@ window.onload = function () {
 };
 const rows = document.querySelectorAll(".productRow");
 
+const addButton = document.querySelector("#add");
+
 function logout() {
   sessionStorage.setItem("auth", false);
-  window.location = "../index.html";
+  window.location = "/index.html";
 }
-function add() {
+
+addButton.addEventListener("click", function () {
+  console.log("add detectado");
   const productName = document.getElementById("productName");
   const productPrice = document.getElementById("productPrice");
   const productDescription = document.getElementById("productDescription");
@@ -152,4 +156,4 @@ function add() {
     location.reload();
     console.log(products2);
   }
-}
+});

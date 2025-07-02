@@ -119,6 +119,9 @@ function logout() {
   sessionStorage.setItem("auth", false);
   window.location = "../index.html";
 }
+
+const addButton = document.getElementById("adding");
+addButton.addEventListener("click", function(){add()})
 function add() {
   const productName = document.getElementById("productName");
   const productPrice = document.getElementById("productPrice");
@@ -205,6 +208,9 @@ function cargarProducto(boton) {
   document.getElementById("correo-id").value = correo;
 }
 
+const cambiosButton = document.getElementById("guardarCambios");
+cambiosButton.addEventListener("click", function(){guardarCambios()})
+
 function guardarCambios() {
   const id = document.getElementById("producto-id").value;
   const correo = document.getElementById("correo-id").value;
@@ -227,6 +233,11 @@ function guardarCambios() {
     location.reload();
   }
 }
+
+const perfilButton = document.getElementById("updatePerfil");
+
+perfilButton.addEventListener("click", function(){ updatePerfil()})
+
 function updatePerfil() {
   const corr = sessionStorage.getItem("correo");
   let email = document.getElementById("email").value.toLowerCase();
