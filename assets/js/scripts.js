@@ -3,7 +3,10 @@ window.onload = function () {
 };
 
 const logButton = document.querySelector("#logButton");
-logButton.addEventListener("click", function auth() {
+const registerButton = document.querySelector("#registerButton");
+
+if (logButton) {
+  logButton.addEventListener("click", function () {
   let email = document.getElementById("email").value.toLowerCase();
   let password = document.getElementById("password");
   let users = JSON.parse(localStorage.getItem("users")) || {};
@@ -25,9 +28,10 @@ logButton.addEventListener("click", function auth() {
   document.getElementById("password").value = "";
   console.log(users);
 });
+} 
 
-const registerButton = document.querySelector("#registerButton");
-registerButton.addEventListener("click", function register() {
+if (registerButton) {
+  registerButton.addEventListener("click", function() {
   let email = document.getElementById("email").value.toLowerCase();
   let password = document.getElementById("password").value;
   let name = document.getElementById("name").value;
@@ -84,3 +88,7 @@ registerButton.addEventListener("click", function register() {
   document.getElementById("direccion").value = "";
   document.getElementById("postal").value = "";
 });
+}
+
+
+
